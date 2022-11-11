@@ -8,10 +8,11 @@ import mainapp.views as mainapp
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", mainapp.main, namespace="main"),
-    path("products/", include("mainapp/urls", namespace="products")),
-    path("contact/", mainapp.contact, namespace="contact"),
+    path("", mainapp.main, name="main"),
+    path("products/", include("mainapp.urls", namespace="products")),
+    path("contact/", mainapp.contact, name="contact"),
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
