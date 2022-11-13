@@ -3,18 +3,14 @@
 
 
 {% block menu %}
-
 <div class="hero-white">
 	<div class="header clearfix">
-		{%include 'mainapp/includes/inc_menu.html'%}
+		{% include 'mainapp/includes/inc_menu.html' %}
 	</div>
 </div>
-
-{% endblock menu %}
-
+{% endblock %}
 
 {% block content %}
-
 <div class="details">
 	<div class="links clearfix">
 		{% include 'mainapp/includes/inc_categories_menu.html' %}
@@ -47,12 +43,12 @@
 		<div class="description">
 			<h3 class="big-bold">{{ hot_product.name }}</h3>
 			<h3 class="red">горячее предложение</h3>
-			<p class="price"> {{ hot_product.price }} <span>руб</span></p>
+			<p class="price">{{ hot_product.price }} <span>руб</span></p>
 			<a href="{% url 'basket:add' hot_product.pk %}" class="red-button">
 				заказать <i class="fa fa-chevron-right" aria-hidden="true"></i>
 			</a>
 			<div class="description-text">
-				<p>{{ hot_product.description }}.</p>
+				{{ hot_product.description }}
 			</div>
 		</div>
 	</div>
@@ -65,14 +61,15 @@
 		<div class="related-products clearfix">
 			{% for product in same_products %}
 			<div class="block">
-				<a href="#"><img src="{{ media_url }}{{ product.image }}" alt="{{product.short_desc}}">
+				<a href="{% url 'basket:add' product.pk %}"><img src="{{ media_url }}{{ product.image }}"
+						alt="{{ product.short_desc }}">
 					<div class="text">
-						<img src="{% static 'img/icon-hover.png' %}" alt="img">
-						<h3>Категория: {{ product.category.name }}</h3>
+						<img src="/static/img/icon-hover.png" alt="img">
+						<h3>Категория:{{ product.category.name }}</h3>
 						<h4>Название: {{ product.name }}</h4>
-						<p>Описание: {{ product.description }}</p>
-						<p>Цена: {{ product.price }}</p>
-						<p>На складе: {{ product.quantity }}</p>
+						<p>Описание: {{ product.description }} </p>
+						<p>Цена: {{ product.price }} </p>
+						<p>На складе: {{ product.quantity }} </p>
 					</div>
 				</a>
 			</div>
@@ -83,4 +80,4 @@
 
 <div class="clr"></div>
 
-{% endblock content %}
+{% endblock %}
