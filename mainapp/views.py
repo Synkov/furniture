@@ -1,17 +1,15 @@
 from django.conf import settings
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.utils import timezone
 
 from basketapp.models import Basket
-
 from mainapp.models import Contact, Product, ProductCategory
 
 
 def main(request):
     title = "Главная"
     products = Product.objects.all()[:4]
-    content = {"title": title, "products": products,
-               "media_url": settings.MEDIA_URL}
+    content = {"title": title, "products": products, "media_url": settings.MEDIA_URL}
     return render(request, "mainapp/index.html", content)
 
 
@@ -24,12 +22,11 @@ def products(request, pk=None):
         basket = Basket.objects.filter(user=request.user)
     if pk is not None:
         if pk == 0:
-            products = Product.objects.all().order_by('price')
-            category = {'name': 'все'}
+            products = Product.objects.all().order_by("price")
+            category = {"name": "все"}
         else:
             category = get_object_or_404(ProductCategory, pk=pk)
-            products = Product.objects.filter(
-                category__pk=pk).order_by('price')
+            products = Product.objects.filter(category__pk=pk).order_by("price")
         content = {
             "title": title,
             "links_menu": links_menu,
@@ -38,7 +35,7 @@ def products(request, pk=None):
             "media_url": settings.MEDIA_URL,
             "basket": basket,
         }
-        return render(request, 'mainapp/products_list.html', content)
+        return render(request, "mainapp/products_list.html", content)
     same_products = Product.objects.all()
     content = {
         "title": title,
@@ -56,6 +53,5 @@ def contact(request):
     title = "О нас"
     vizit_date = timezone.now()
     locations = Contact.objects.all()
-    content = {"title": title, "vizit_date": vizit_date,
-               "locations": locations}
+    content = {"title": title, "vizit_date": vizit_date, "locations": locations}
     return render(request, "mainapp/contact.html", content)

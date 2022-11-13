@@ -1,10 +1,11 @@
-from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
+from django.shortcuts import HttpResponseRedirect, get_object_or_404, render
+
 from basketapp.models import Basket
 from mainapp.models import Product
 
 
 def basket(request):
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
 
 
 def basket_add(request, pk):
