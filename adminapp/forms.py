@@ -2,7 +2,7 @@ from django import forms
 
 from authnapp.forms import ShopUserEditForm
 from authnapp.models import ShopUser
-from mainapp.models import ProductCategory, Product
+from mainapp.models import Product, ProductCategory
 
 
 class ShopUserAdminEditForm(ShopUserEditForm):
