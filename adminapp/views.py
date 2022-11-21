@@ -36,7 +36,8 @@ def user_create(request):
     else:
         user_form = ShopUserRegisterForm()
 
-    content = {"title": title, "update_form": user_form, "media_url": settings.MEDIA_URL}
+    content = {"title": title, "update_form": user_form,
+               "media_url": settings.MEDIA_URL}
 
     return render(request, "adminapp/user_update.html", content)
 
@@ -47,14 +48,16 @@ def user_update(request, pk):
 
     edit_user = get_object_or_404(ShopUser, pk=pk)
     if request.method == "POST":
-        edit_form = ShopUserAdminEditForm(request.POST, request.FILES, instance=edit_user)
+        edit_form = ShopUserAdminEditForm(
+            request.POST, request.FILES, instance=edit_user)
         if edit_form.is_valid():
             edit_form.save()
             return HttpResponseRedirect(reverse("admin:user_update", args=[edit_user.pk]))
     else:
         edit_form = ShopUserAdminEditForm(instance=edit_user)
 
-    content = {"title": title, "update_form": edit_form, "media_url": settings.MEDIA_URL}
+    content = {"title": title, "update_form": edit_form,
+               "media_url": settings.MEDIA_URL}
 
     return render(request, "adminapp/user_update.html", content)
 
@@ -72,7 +75,8 @@ def user_delete(request, pk):
         user.save()
         return HttpResponseRedirect(reverse("admin:users"))
 
-    content = {"title": title, "user_to_delete": user, "media_url": settings.MEDIA_URL}
+    content = {"title": title, "user_to_delete": user,
+               "media_url": settings.MEDIA_URL}
 
     return render(request, "adminapp/user_delete.html", content)
 
@@ -81,7 +85,8 @@ def user_delete(request, pk):
 def categories(request):
     title = "админка/категории"
     categories_list = ProductCategory.objects.all()
-    content = {"title": title, "objects": categories_list, "media_url": settings.MEDIA_URL}
+    content = {"title": title, "objects": categories_list,
+               "media_url": settings.MEDIA_URL}
     return render(request, "adminapp/categories.html", content)
 
 
@@ -99,7 +104,8 @@ class ProductCategoryUpdateView(LoginRequiredMixin, UpdateView):
     fields = "__all__"
 
     def get_context_data(self, **kwargs):
-        context = super(ProductCategoryUpdateView, self).get_context_data(**kwargs)
+        context = super(ProductCategoryUpdateView,
+                        self).get_context_data(**kwargs)
         context["title"] = "категории/редактирование"
         return context
 
@@ -121,7 +127,8 @@ def products(request, pk):
     title = "админка/продукт"
     category = get_object_or_404(ProductCategory, pk=pk)
     products_list = Product.objects.filter(category__pk=pk).order_by("name")
-    content = {"title": title, "category": category, "objects": products_list, "media_url": settings.MEDIA_URL}
+    content = {"title": title, "category": category,
+               "objects": products_list, "media_url": settings.MEDIA_URL}
     return render(request, "adminapp/products.html", content)
 
 
@@ -139,7 +146,8 @@ def product_create(request, pk):
         # set initial value for form
         product_form = ProductEditForm(initial={"category": category})
 
-    content = {"title": title, "update_form": product_form, "category": category, "media_url": settings.MEDIA_URL}
+    content = {"title": title, "update_form": product_form,
+               "category": category, "media_url": settings.MEDIA_URL}
     return render(request, "adminapp/product_update.html", content)
 
 
@@ -154,7 +162,8 @@ def product_update(request, pk):
     edit_product = get_object_or_404(Product, pk=pk)
 
     if request.method == "POST":
-        edit_form = ProductEditForm(request.POST, request.FILES, instance=edit_product)
+        edit_form = ProductEditForm(
+            request.POST, request.FILES, instance=edit_product)
         if edit_form.is_valid():
             edit_form.save()
             return HttpResponseRedirect(reverse("admin:product_update", args=[edit_product.pk]))
@@ -180,5 +189,6 @@ def product_delete(request, pk):
         product.save()
         return HttpResponseRedirect(reverse("admin:products", args=[product.category.pk]))
 
-    content = {"title": title, "product_to_delete": product, "media_url": settings.MEDIA_URL}
+    content = {"title": title, "product_to_delete": product,
+               "media_url": settings.MEDIA_URL}
     return render(request, "adminapp/product_delete.html", content)
